@@ -5,7 +5,7 @@ import { useQuery, useQueryClient, useMutation } from "react-query";
 import React from "react";
 
 // TODO: move to /constants
-const AWS_API_PATH = `https://9tr1onlmmb.execute-api.eu-north-1.amazonaws.com/dev`
+const AWS_API_PATH = `https://xtvcbfsgk5.execute-api.us-east-1.amazonaws.com/prod`
 
 export function useAvailableProducts() {
   return useQuery<AvailableProduct[], AxiosError>(
@@ -32,7 +32,7 @@ export function useAvailableProduct(id?: string) {
     ["product", { id }],
     async () => {
       const res = await axios.get<AvailableProduct>(
-        `${API_PATHS.bff}/product/${id}`
+        `${AWS_API_PATH}/products/${id}`
       );
       return res.data;
     },
