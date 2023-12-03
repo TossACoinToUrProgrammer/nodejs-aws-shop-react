@@ -4,12 +4,15 @@ import { AvailableProduct } from "~/models/Product";
 import { useQuery, useQueryClient, useMutation } from "react-query";
 import React from "react";
 
+// TODO: move to /constants
+const AWS_API_PATH = `https://xtvcbfsgk5.execute-api.us-east-1.amazonaws.com/prod`
+
 export function useAvailableProducts() {
   return useQuery<AvailableProduct[], AxiosError>(
     "available-products",
     async () => {
       const res = await axios.get<AvailableProduct[]>(
-        `${API_PATHS.bff}/product/available`
+        `${AWS_API_PATH}/products`
       );
       return res.data;
     }
@@ -29,7 +32,7 @@ export function useAvailableProduct(id?: string) {
     ["product", { id }],
     async () => {
       const res = await axios.get<AvailableProduct>(
-        `${API_PATHS.bff}/product/${id}`
+        `${AWS_API_PATH}/products/${id}`
       );
       return res.data;
     },
@@ -48,7 +51,7 @@ export function useRemoveProductCache() {
 
 export function useUpsertAvailableProduct() {
   return useMutation((values: AvailableProduct) =>
-    axios.put<AvailableProduct>(`${API_PATHS.bff}/product`, values, {
+    axios.put<AvailableProduct>(`${AWS_API_PATH}/products`, values, {
       headers: {
         Authorization: `Basic ${localStorage.getItem("authorization_token")}`,
       },
